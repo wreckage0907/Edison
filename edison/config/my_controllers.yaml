@@ -1,0 +1,29 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 30
+    use_sim_time: true
+
+    diffbot_base_controller: 
+      type: diff_drive_controller/DiffDriveController
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    
+diffbot_base_controller:
+  ros__parameters:
+
+    publish_rate: 50.0
+
+    base_frame_id: base_link
+
+    #this is an addition
+    odom_frame_id: odom
+    enable_odom_tf: true
+
+    left_wheel_names: ['Revolute 3','Revolute 4']
+    right_wheel_names: ['Revolute 5','Revolute 2']
+
+    wheel_separation: 0.186
+    wheel_radius: 0.07
+
+    use_stamped_vel: false
