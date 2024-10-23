@@ -20,7 +20,10 @@
   <depend>robot_state_publisher</depend>
   <depend>joint_state_publisher_gui</depend>
   <depend>rviz2</depend>
+  <depend>nav_msgs</depend>
+  <depend>cv_bridge</depend>
 
+  
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
