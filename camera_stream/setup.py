@@ -1,10 +1,10 @@
 from setuptools import setup
 
-package_name = 'traffic_sign_detector'
+package_name = 'camera_stream'
 
 setup(
     name=package_name,
-    version='0.0.1',
+    version='0.0.1',  # Use a simple version format
     packages=[package_name],
     data_files=[
         ('share/ament_index/resource_index/packages',
@@ -15,12 +15,12 @@ setup(
     zip_safe=True,
     maintainer='your_name',
     maintainer_email='your_email@example.com',
-    description='Traffic sign detection package',
-    license='Apache License 2.0',
+    description='Traffic light detection package',
+    license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'detector_node = traffic_sign_detector.detector_node:main'
+            'traffic_light_detector = camera_stream.traffic_light_detector:main',
         ],
     },
 )
