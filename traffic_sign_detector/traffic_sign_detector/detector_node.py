@@ -4,7 +4,8 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import cv2
 import numpy as np
-from tensorflow.keras.models import load_model
+import os
+from datetime import datetime
 
 class TrafficSignDetectorNode(Node):
     def __init__(self):
@@ -28,10 +29,19 @@ class TrafficSignDetectorNode(Node):
         
         # Initialize cascade classifier for traffic sign detection
         self.sign_cascade = cv2.CascadeClassifier(
-            cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'  # Replace with traffic sign cascade
+            cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
         )
         
+        # Create output directory for saved images
+        self.output_dir = os.path.expanduser('~/traffic_sign_images')
+        os.makedirs(self.output_dir, exist_ok=True)
+        
+        # Parameter for saving frequency
+        self.declare_parameter('save_frequency', 1.0)  # Save every 1 second
+        self.last_save_time = self.get_clock().now()
+        
         self.get_logger().info('Traffic Sign Detector Node has been started')
+        self.get_logger().info(f'Saving images to: {self.output_dir}')
 
     def image_callback(self, msg):
         # Convert ROS Image message to OpenCV image
@@ -55,6 +65,16 @@ class TrafficSignDetectorNode(Node):
             # Extract sign region for classification
             sign_roi = cv_image[y:y+h, x:x+w]
             # Add classification logic here
+        
+        # Save image periodically
+        current_time = self.get_clock().now()
+        if (current_time - self.last_save_time).nanoseconds / 1e9 >= self.get_parameter('save_frequency').value:
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            if len(signs) > 0:  # Only save if signs are detected
+                filename = os.path.join(self.output_dir, f'sign_detected_{timestamp}.jpg')
+                cv2.imwrite(filename, cv_image)
+                self.get_logger().info(f'Saved image: {filename}')
+            self.last_save_time = current_time
         
         # Publish processed image
         processed_msg = self.bridge.cv2_to_imgmsg(cv_image, encoding='bgr8')
