@@ -80,9 +80,9 @@ class TrafficLightDetector(Node):
                 # Draw bounding box and label
                 if max_color[1] > 0:
                     color_text = {
-                        'red': ('STOP', (0, 0, 255)),
+                        'red': ('GO', (0, 0, 255)),
                         'yellow': ('WAIT', (0, 255, 255)),
-                        'green': ('GO', (0, 255, 0))
+                        'green': ('STOP', (0, 255, 0))
                     }[max_color[0]]
                     
                     cv2.putText(image, color_text[0], (x1, y1 - 10),
