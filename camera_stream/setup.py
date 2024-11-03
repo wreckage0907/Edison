@@ -21,6 +21,9 @@ setup(
     entry_points={
         'console_scripts': [
             'traffic_light_detector = camera_stream.traffic_light_detector:main',
+            'traffic_light_viewer = camera_stream.traffic_light_viewer:main',
+            'camera_publisher = camera_stream.camera_publisher:main',
+            'camera_viewer  = camera_stream.camera_viewer:main',
         ],
     },
 )
